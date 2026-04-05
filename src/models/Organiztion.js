@@ -13,4 +13,4 @@ const organizationSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Organization', organizationSchema);
+export default mongoose.model('Organization', organizationSchema);

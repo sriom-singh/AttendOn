@@ -3,14 +3,14 @@ import Admin   from '../models/Admin.js';
 import Staff   from '../models/Staff.js';
 import Student from '../models/Student.js';
 import jwt     from 'jsonwebtoken';
-import { sendMail } from '../utils/email.js';
+import { sendMail } from '../utils/sendMail.js';
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   });
 
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { name, email, password, role, profileData } = req.body;
 
@@ -42,6 +42,8 @@ exports.register = async (req, res) => {
 
   } catch (err) {
     // Duplicate email hits MongoDB error code 11000
+    console.log(err);
+    
     if (err.code === 11000) {
       return res.status(409).json({ message: 'Email already registered' });
     }
@@ -49,7 +51,7 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -95,7 +97,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.forgotPassword = async (req, res)=>{
+export const forgotPassword = async (req, res)=>{
   try {
     const {email} = req.body;
     if(!email){
@@ -118,7 +120,7 @@ exports.forgotPassword = async (req, res)=>{
   }
 }
 
-exports.resetPassword = async (req, res)=>{
+export const resetPassword = async (req, res)=>{
   try {
     const { token, newPassword } = req.body;
     if (!token || !newPassword) {

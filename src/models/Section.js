@@ -28,4 +28,4 @@ sectionSchema.index(
   { unique: true }
 );
 
-module.exports = mongoose.model('Section', sectionSchema);
+export default mongoose.model('Section', sectionSchema);

@@ -24,4 +24,4 @@ const departmentSchema = new mongoose.Schema({
 // Unique department code within an organization
 departmentSchema.index({ code: 1, organizationId: 1 }, { unique: true });
 
-module.exports = mongoose.model('Department', departmentSchema);
+export default mongoose.model('Department', departmentSchema);

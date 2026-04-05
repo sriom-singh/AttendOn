@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 // protect — verifies JWT, attaches req.user
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   try {
     let token;
 
@@ -35,7 +35,7 @@ exports.protect = async (req, res, next) => {
 
 // restrictTo — role-based gate, used after protect
 // Usage: router.delete('/:id', protect, restrictTo('admin'), deleteUser)
-exports.restrictTo = (...roles) => (req, res, next) => {
+export const restrictTo = (...roles) => (req, res, next) => {
   if (!roles.includes(req.user.role)) {
     return res.status(403).json({
       message: `Access denied. Required role: ${roles.join(' or ')}`,

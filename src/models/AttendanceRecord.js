@@ -25,4 +25,4 @@ attendanceRecordSchema.index(
   { unique: true }
 );
 
-module.exports = mongoose.model('AttendanceRecord', attendanceRecordSchema);
+export default mongoose.model('AttendanceRecord', attendanceRecordSchema);

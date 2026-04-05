@@ -18,4 +18,4 @@ const staffSchema = new mongoose.Schema({
   joiningDate: { type: Date },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Staff', staffSchema);
+export default mongoose.model('Staff', staffSchema);

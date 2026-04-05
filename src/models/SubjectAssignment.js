@@ -29,4 +29,4 @@ subjectAssignmentSchema.index(
   { unique: true }
 );
 
-module.exports = mongoose.model('SubjectAssignment', subjectAssignmentSchema);
+export default mongoose.model('SubjectAssignment', subjectAssignmentSchema);

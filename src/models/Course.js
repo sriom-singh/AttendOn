@@ -17,4 +17,4 @@ const courseSchema = new mongoose.Schema({
 // Unique course code within a department
 courseSchema.index({ code: 1, departmentId: 1 }, { unique: true });
 
-module.exports = mongoose.model('Course', courseSchema);
+export default mongoose.model('Course', courseSchema);

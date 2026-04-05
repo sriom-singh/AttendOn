@@ -41,4 +41,4 @@ attendanceSessionSchema.index(
   { unique: true }
 );
 
-module.exports = mongoose.model('AttendanceSession', attendanceSessionSchema);
+export default mongoose.model('AttendanceSession', attendanceSessionSchema);

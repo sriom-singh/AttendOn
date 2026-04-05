@@ -24,4 +24,4 @@ const subjectSchema = new mongoose.Schema({
 // Subject code must be unique within a course
 subjectSchema.index({ code: 1, courseId: 1 }, { unique: true });
 
-module.exports = mongoose.model('Subject', subjectSchema);
+export default mongoose.model('Subject', subjectSchema);

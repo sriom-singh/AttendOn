@@ -7,7 +7,7 @@ import Student from '../models/Student.js';
 // Map role string → the right profile model
 const profileModel = { admin: Admin, staff: Staff, student: Student };
 
-exports.getMe = async (req, res) => {
+export const getMe = async (req, res) => {
   try {
     // req.user is set by protect middleware (see middleware tab)
     const user = await User.findById(req.user._id);
@@ -30,7 +30,7 @@ exports.getMe = async (req, res) => {
   }
 };
 
-exports.updateMe = async (req, res) => {
+export const updateMe = async (req, res) => {
   try {
     // Whitelist allowed fields — never pass req.body directly to update
     // This prevents role escalation: { role: 'admin' } in body is ignored
@@ -65,7 +65,8 @@ exports.updateMe = async (req, res) => {
   }
 };
 
-exports.changePassword = async (req, res) => {
+
+export const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
@@ -101,7 +102,8 @@ exports.changePassword = async (req, res) => {
 };
 
 
-exports.deactivateMe = async (req, res) => {
+
+export const deactivateMe = async (req, res) => {
   try {
     // Soft delete — flip isActive instead of destroying the document
     // Hard deletes break attendance, grade, and assignment history
@@ -115,7 +117,8 @@ exports.deactivateMe = async (req, res) => {
 };
 
 // Admin-only: reactivate a previously deactivated user
-exports.reactivateUser = async (req, res) => {
+
+export const reactivateUser = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
       req.params.id,
