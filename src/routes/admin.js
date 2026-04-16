@@ -1,24 +1,24 @@
 // routes/admin.js
-import express from 'express';
-import User from '../models/User.js';
+import express from "express";
+import User from "../models/User.js";
 
 const router = express.Router();
 
-const { protect } = require("../middleware/auth");
-const {
+import { protect } from "../middleware/auth.js";
+import {
   attachAdmin,
   hasPermission,
   superAdminOnly,
-} = require("../middleware/permission");
+} from "../middleware/permission.js";
 
-const {
+import {
   getAdminProfile,
   getAdminById,
   updatePermissions,
   getAllUsers,
   promoteToAdmin,
   getDashboardStats,
-} = require("../controllers/adminController");
+} from "../controllers/adminController.js";
 
 // Middleware chain applied to ALL routes in this file:
 // protect      → verify JWT, attach req.user
@@ -53,7 +53,6 @@ router.patch("/admins/:id/permissions", superAdminOnly, updatePermissions);
 
 router.post("/promote/:userId", superAdminOnly, promoteToAdmin);
 
-module.exports = router;
-
+export default router;
 // ── Mount in app.js ───────────────────────────────────
 // app.use('/api/admin', require('./routes/admin'));

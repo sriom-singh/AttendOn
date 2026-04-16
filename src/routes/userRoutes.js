@@ -1,10 +1,10 @@
 // routes/user.js
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { body } = require("express-validator");
-const { validate } = require("../middleware/validate");
-const { protect, restrictTo } = require("../middleware/auth");
-const {
+import { body } from "express-validator";
+import { validate } from "../middleware/validate.js";
+import { protect, restrictTo } from "../middleware/auth.js";
+import {
   getMe,
   updateMe,
   changePassword,
@@ -14,7 +14,7 @@ const {
   adminUpdateUser,
   reactivateUser,
   adminDeleteUser,
-} = require("../controllers/userController");
+} from "../controllers/userController.js";
 
 // Every route in this file requires a valid JWT
 router.use(protect);

@@ -1,9 +1,9 @@
-const Admin = require('../models/Admin');
+import Admin  from '../models/Admin.js';
 
 // Step 1 — attach the Admin profile to req.admin
 // Runs after protect (which sets req.user)
 
-exports.attachAdmin = async (req, res, next) => {
+export const attachAdmin = async (req, res, next) => {
   try {
     if (req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Admin access required' });
@@ -25,7 +25,7 @@ exports.attachAdmin = async (req, res, next) => {
 // Step 2 — gate by specific permission string
 // Usage: router.post('/org', protect, attachAdmin, hasPermission('manage_org'), createOrg)
 
-exports.hasPermission = (permission) => (req, res, next) => {
+export const hasPermission = (permission) => (req, res, next) => {
   const { isSuperAdmin, permissions } = req.admin;
 
   // SuperAdmins bypass all permission checks
@@ -45,7 +45,7 @@ exports.hasPermission = (permission) => (req, res, next) => {
 };
 
 // Convenience: superAdmin-only routes
-exports.superAdminOnly = (req, res, next) => {
+export const superAdminOnly = (req, res, next) => {
   if (!req.admin?.isSuperAdmin) {
     return res.status(403).json({ message: 'Super admin access required' });
   }
