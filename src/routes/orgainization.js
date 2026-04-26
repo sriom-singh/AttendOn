@@ -16,7 +16,10 @@ import {
   deactivateOrg,
   reactivateOrg,
   getOrgStats,
+  getOrgsByCreator
 } from "../controllers/organizationController.js";
+
+import { validateObjectId } from "../middleware/validate.js";
 
 // All org routes require a valid JWT + admin profile
 router.use(protect, attachAdmin);
@@ -26,6 +29,19 @@ router
   .route("/")
   .get(getAllOrgs) // any admin can list
   .post(hasPermission("manage_org"), createOrg);
+
+router.get(
+  "/created-by/:userId",
+  validateObjectId, // validates :userId is a valid ObjectId
+  hasPermission("manage_org"), // only admins with manage_org can do this
+  (req, res, next) => {
+    req.params.userId = req.params.id; // validateObjectId reads :id, remap it
+    next();
+  },
+  getOrgsByCreator
+);
+
+router.get("/mine", getOrgsByCreator);
 
 // ── Individual org routes ─────────────────────────────
 router

@@ -142,6 +142,54 @@ export const getOrgById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+// controllers/organizationController.js
+
+export const getOrgsByCreator = async (req, res) => {
+  try {
+    // If :userId param is provided (admin fetching another user's orgs)
+    // otherwise fall back to the logged-in user themselves
+    const creatorId = req.params.userId || req.user._id;
+
+    // If an admin is querying another user's orgs, validate the target exists
+    if (req.params.userId) {
+      const targetUser = await User.findById(creatorId).select("_id isActive");
+      if (!targetUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+    }
+
+    const {
+      isActive,
+      search,
+      page  = 1,
+      limit = 10,
+    } = req.query;
+
+    const filter = { createdBy: creatorId };
+    if (isActive !== undefined) filter.isActive = isActive === "true";
+    if (search)                 filter.name = { $regex: search, $options: "i" };
+
+    const skip  = (Number(page) - 1) * Number(limit);
+    const total = await Organization.countDocuments(filter);
+
+    const orgs = await Organization
+      .find(filter)
+      .populate("createdBy", "name email role")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    res.status(200).json({
+      total,
+      page:       Number(page),
+      totalPages: Math.ceil(total / Number(limit)),
+      orgs,
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 export const updateOrg = async (req, res) => {
   try {

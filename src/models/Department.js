@@ -12,6 +12,7 @@ const departmentSchema = new mongoose.Schema({
   headOfDept: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Staff',
+    required:false,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
